@@ -22,15 +22,15 @@ contours, _ = cv2.findContours(thresholded, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_
 cv2.drawContours(image, contours, -1, (0, 255, 0), 2)
 cv2.imwrite("contours.jpg", image)
 
-# truncate contours into single string
-contourtxt = ""
+# take sum of point products
+contourtxt = 0
 for contour in contours:
     for line in contour:
         for point in line:
-            contourtxt += str(point[0] * point[1])
+            contourtxt += point[0] * point[1]
 
 # hash to 256, save
 h = hashlib.sha256()
-h.update(bytes(contourtxt.encode()))
-with open("contours.txt", "wb") as file:
+h.update(bytes(str(contourtxt).encode()))
+with open("contours.hex", "wb") as file:
     file.write(h.digest())
