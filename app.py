@@ -15,7 +15,7 @@ image = cv2.imread("nobg.jpg")
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 blur = cv2.GaussianBlur(gray, (5, 5), 0)
 
-_, thresholded = cv2.threshold(blur, 127, 255, cv2.THRESH_BINARY)
+_, thresholded = cv2.threshold(blur, 85, 255, cv2.THRESH_BINARY)
 contours, _ = cv2.findContours(thresholded, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
 # draw contours and save
