@@ -55,7 +55,7 @@ if len(sys.argv) > 3:
     # check if file exists
     f = None
     try:
-        f = open(sys.argv[2], 'rb')
+        f = open(sys.argv[2], "rb")
         pass
     except FileNotFoundError as e:
         print('"{}" not found.'.format(sys.argv[2]))
@@ -69,15 +69,21 @@ if len(sys.argv) > 3:
     cipher = Cipher(algorithms.AES256(key=key), modes.ECB())
     # encryption switch
     if sys.argv[3] in "-e-E":
+        # encrypt file
         cyphertext = cipher.encryptor().update(f.read()) + cipher.encryptor().finalize()
-        with open("output.hex", "wb") as out: out.write(cyphertext)
+        with open("output.hex", "wb") as out:
+            out.write(cyphertext)
         f.close()
         exit(0)
     if sys.argv[3] in "-d-D":
+        # decrypt file
         plaintext = cipher.decryptor().update(f.read()) + cipher.decryptor().finalize()
-        with open("output.txt", "wb") as out: out.write(plaintext)
+        with open("output.txt", "wb") as out:
+            out.write(plaintext)
         f.close()
         exit(0)
+        
+    # neither, panic
     f.close()
     print("encryption/decryption needs to be specified")
     print(
