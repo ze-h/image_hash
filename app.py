@@ -2,9 +2,15 @@ import cv2
 import sys
 import rembg
 import hashlib
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
 if len(sys.argv) < 2:
     print("{} needs at least one argument".format(sys.argv[0]))
+    print(
+        "usage: {} <image for keygen> [optional]<file to encrypt> -(e,d)".format(
+            sys.argv[0]
+        )
+    )
     exit(1)
 
 # import image and remove bg
@@ -34,3 +40,49 @@ h = hashlib.sha256()
 h.update(bytes(str(contourtxt).encode()))
 with open("contours.hex", "wb") as file:
     file.write(h.digest())
+
+# check args
+if len(sys.argv) == 3:
+    print("encryption/decryption needs to be specified")
+    print(
+        "usage: {} <image for keygen> [optional]<file to encrypt> -(e,d)".format(
+            sys.argv[0]
+        )
+    )
+    exit(1)
+
+if len(sys.argv) > 3:
+    # check if file exists
+    f = None
+    try:
+        f = open(sys.argv[2], 'rb')
+        pass
+    except FileNotFoundError as e:
+        print('"{}" not found.'.format(sys.argv[2]))
+        print(
+            "usage: {} <image for keygen> [optional]<file to encrypt> -(e,d)".format(
+                sys.argv[0]
+            )
+        )
+        exit(1)
+    key = h.digest()
+    cipher = Cipher(algorithms.AES256(key=key), modes.ECB())
+    # encryption switch
+    if sys.argv[3] in "-e-E":
+        cyphertext = cipher.encryptor().update(f.read()) + cipher.encryptor().finalize()
+        with open("output.hex", "wb") as out: out.write(cyphertext)
+        f.close()
+        exit(0)
+    if sys.argv[3] in "-d-D":
+        plaintext = cipher.decryptor().update(f.read()) + cipher.decryptor().finalize()
+        with open("output.txt", "wb") as out: out.write(plaintext)
+        f.close()
+        exit(0)
+    f.close()
+    print("encryption/decryption needs to be specified")
+    print(
+        "usage: {} <image for keygen> [optional]<file to encrypt> -(e,d)".format(
+            sys.argv[0]
+        )
+    )
+    exit(1)
