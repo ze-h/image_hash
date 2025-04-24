@@ -37,5 +37,6 @@ setuptools==75.8.0
 sympy==1.13.3
 tifffile==2025.3.30
 tqdm==4.67.1
+typing_extensions==4.13.2
 urllib3==2.4.0
 wheel==0.45.1
