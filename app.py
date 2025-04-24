@@ -19,10 +19,6 @@ face_cascade = cv2.CascadeClassifier(
     os.path.abspath("cascades/haarcascade_frontalface_default.xml")
 )
 
-# eye recognizer
-# https://github.com/opencv/opencv/blob/master/data/haarcascades/haarcascade_eye.xml
-eye_cascade = cv2.CascadeClassifier(os.path.abspath("cascades/haarcascade_eye.xml"))
-
 # import image
 image = cv2.imread(sys.argv[1])
 
