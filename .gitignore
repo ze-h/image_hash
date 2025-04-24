@@ -189,3 +189,6 @@ output.*
 
 #vsc
 .vscode/
+
+# ignore cascade xml files (you can download them yourself)
+cascades/
