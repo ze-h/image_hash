@@ -23,7 +23,7 @@ face_cascade = cv2.CascadeClassifier(
 # https://github.com/opencv/opencv/blob/master/data/haarcascades/haarcascade_eye.xml
 eye_cascade = cv2.CascadeClassifier(os.path.abspath("cascades/haarcascade_eye.xml"))
 
-# import image and remove bg
+# import image
 image = cv2.imread(sys.argv[1])
 
 # Detects faces of different sizes in the input image
